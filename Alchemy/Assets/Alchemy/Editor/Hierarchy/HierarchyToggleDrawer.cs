@@ -21,7 +21,7 @@ namespace Alchemy.Editor
                 rect.x = rect.xMax - 2.7f;
                 rect.width = 16f;
 
-                if (IsPrefab(gameObject))
+                if (IsNewPrefabWorkflow() && IsPrefab(gameObject))
                     rect.x -= 16.7f;
 
                 var active = GUI.Toggle(rect, gameObject.activeSelf, string.Empty);
@@ -38,7 +38,7 @@ namespace Alchemy.Editor
                 var rect = selectionRect;
                 rect.x = rect.xMax - (settings.ShowHierarchyToggles ? 18.7f : 2.7f);
 
-                if (IsPrefab(gameObject))
+                if (IsNewPrefabWorkflow() && IsPrefab(gameObject))
                     rect.x -= 16.7f;
 
                 rect.y += 1f;
@@ -89,6 +89,14 @@ namespace Alchemy.Editor
                 return false;
             var prefabType = PrefabUtility.GetPrefabAssetType(gameObj);
             return prefabType != PrefabAssetType.NotAPrefab;
+        }
+        private static bool IsNewPrefabWorkflow()
+        {
+#if UNITY_2018_3_OR_NEWER
+            return true;
+#else
+            return false;
+#endif
         }
     }
 
